@@ -3,8 +3,10 @@ const apiRoutes = require('./routes/apiRoutes');
 const app = express();
 
 app.set("view engine", "ejs");
-app.set("views", "D:/Coding/Web_dev/Isro/views");
-app.use(express.static('Isro/public'));
+const currDir = process.cwd();
+console.log(currDir)
+app.set("views", `${currDir}/views`);
+app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "1mb" }));
 
