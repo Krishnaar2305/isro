@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuX - Solar Flare Analysis Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Solar Flare Analysis Tool</h1>
+            <img src="isro.png" alt="ISRO Logo" class="logo isro-logo">
+        </div>
+        <div class="menu">
+            <button class="menu-item active" id="analysis">Analysis</button>
+            <button class="menu-item" id="history">History</button>
+        </div>
+        <div class="history-section" id="curr">
+            <div id="form" class="upload-section">
+                <h2>Upload Data</h2>
+                <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/api/upload">
+                    <label for="fileInput">Choose a file:</label>
+                    <input type="file" id="fileInput" name="datafile" accept=".ascii,.fits,.xls" required>
+                    <button type="submit" id="upload" class="menu-item">Upload</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <canvas id="myChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
