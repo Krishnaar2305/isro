@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JuX - Solar Flare Analysis Tool</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -22,13 +21,11 @@
                 <h2>Upload Data</h2>
                 <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/api/upload">
                     <label for="fileInput">Choose a file:</label>
-                    <input type="file" id="fileInput" name="datafile" accept=".ascii,.fits,.xls" required>
+                    <input type="file" id="fileInput" name="datafile" required>
                     <button type="submit" id="upload" class="menu-item">Upload</button>
                 </form>
             </div>
-        </div>
-        <div>
-            <canvas id="myChart" width="400" height="200"></canvas>
+            <img id = "currGraph">
         </div>
     </div>
     <script src="script.js"></script>

@@ -1,37 +1,28 @@
 const hist = document.getElementById("history");
 const ana = document.getElementById("analysis");
 const curr = document.getElementById("curr");
+const currImg = document.getElementById("currGraph")
+const uploadBtn = document.getElementById("upload")
+const uploadForm = document.getElementById("uploadForm");
 
-const readTxt = async (name) => {
-    const resp = await fetch(`./arrayTxt/${name}`);
-    if (!resp.ok) {
-        throw new Error('Network response was not ok');
-    }
-    const text = await resp.text(); // Use .text() for reading .txt files
-    return text.split(' ').map(Number); // Convert lines to an array of numbers
-};
+// const readTxt = async (name) => {
+//     const resp = await fetch(`./arrayTxt/${name}`);
+//     if (!resp.ok) {
+//         throw new Error('Network response was not ok');
+//     }
+//     const text = await resp.text(); // Use .text() for reading .txt files
+//     return text.split(' ').map(Number); // Convert lines to an array of numbers
+// };
 
-let i = 0; // Initialize i outside of the loop
-const histdata = [];
-let read = false;
-const fetchData = async () => {
-    while (!read) {
-        try {
-            const data = await readTxt(`test${i}.txt`); // Make sure to add .txt if needed
-            if(isNaN(data[0])) read = true
-            histdata.push(data);
-            i++; // Increment i
-        } catch (error) {
-            console.error(`Error reading file test${i}.txt:`, error);
-            read = true
-        }
-    }
-    histdata.pop()
-};
+// let i = 0;
+// if(!localStorage.getItem("size")){
+//     localStorage.setItem("size", 0);
+// }
+// else{
+//     i = parseInt(localStorage.getItem("size"));
+// }
 
-document.addEventListener("DOMContentLoaded", fetchData);
-console.log(histdata)
-// Function to generate the History section with dynamic buttons
+
 const genHist = () => {
     let str1 = `
         <h2>History</h2>
@@ -53,6 +44,7 @@ const genHist = () => {
 
 // Function to generate the Upload section
 const genUpload = () => {
+
     return `
         <div id="form" class="upload-section">
             <h2>Upload Data</h2>
@@ -74,5 +66,39 @@ document.addEventListener("click", (event) => {
         curr.innerHTML = genUpload(); // Correctly call genUpload()
         ana.classList.add("active");
         hist.classList.remove("active");
+    }
+});
+
+// uploadBtn.addEventListener("click", () => {
+//     i++;
+//     localStorage.setItem("size", i)
+//     currImg.src = `./history/img${i}.png`
+// })
+
+uploadForm.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent page refresh
+
+    const formData = new FormData(uploadForm);
+    
+    // Use fetch to send the form data to your server
+    try {
+        const response = await fetch(uploadForm.action, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        // Handle the response (you might want to show a success message)
+        const result = await response.json();
+        console.log(result); // Process the result from the server
+
+        // Assuming the server responds with the image path
+        currImg.src = result.imagePath; // Update this based on your server response
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        // Display an error message to the user
     }
 });
