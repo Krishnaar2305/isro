@@ -15,9 +15,9 @@ body {
 }
 
 .container {
-    position: relative;
-    top: -100px;
-    width: 1000px;
+    /* top: -100px; */
+    width: 1200px;
+    height: auto;
     background-color: #2a2a3b;
     padding: 20px;
     border-radius: 8px;
@@ -74,6 +74,8 @@ h1 {
 .history-section {
     margin-top: 30px;
     text-align: left;
+    height: auto;
+    width: 800px;
 }
 
 .history-section h2 {
@@ -93,15 +95,6 @@ h1 {
     align-items: center;
     background-color: #3a3a4d;
     padding: 10px;
-    border-radius: 5px;
-}
-
-.pastGraphs {
-    background-color: #7e57c2;
-    color: #ffffff;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
     border-radius: 5px;
 }
 
@@ -157,4 +150,25 @@ h1 {
     font-size: 0.9rem;
     color: #c0c0c0;
     margin-top: 10px;
+}
+
+#buttons{
+    display: flex;
+    width: 1000px;
+    margin-top: 20px;
+    gap: 0px;
+}
+
+#buttons button{
+    width: 200px;
+    height: 120%;
+    margin-right: 30px;
+    font-size:  16px;
+}
+
+th, td{
+    padding: 10px;
+    text-align: left;
+    font-size: 18px;
+    
 }

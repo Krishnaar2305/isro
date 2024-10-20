@@ -6,6 +6,6 @@ const api = require('../controllers/api');
 
 // POST route for file upload
 router.post('/upload', api.uploadData);
-
+// router.get("/number", api.getNumber)
 module.exports = router;
 

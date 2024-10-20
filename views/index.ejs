@@ -12,10 +12,6 @@
             <h1>Solar Flare Analysis Tool</h1>
             <img src="isro.png" alt="ISRO Logo" class="logo isro-logo">
         </div>
-        <div class="menu">
-            <button class="menu-item active" id="analysis">Analysis</button>
-            <button class="menu-item" id="history">History</button>
-        </div>
         <div class="history-section" id="curr">
             <div id="form" class="upload-section">
                 <h2>Upload Data</h2>
@@ -25,8 +21,15 @@
                     <button type="submit" id="upload" class="menu-item">Upload</button>
                 </form>
             </div>
-            <img id = "currGraph">
-        </div>
+                <div id = "buttons">
+                    <button id = "data" class = "menu-item active">Data</button>
+                    <button id = "original" class = "menu-item">Original Graph</button>
+                    <button id = "smoothened" class = "menu-item">Smoothened Graph</button>
+                    <button id = "peaks" class = "menu-item">Peaks</button>
+                </div>
+                <div id = "jsonElem"></div>
+                <img id = "currGraph">
+            </div>
     </div>
     <script src="script.js"></script>
 </body>

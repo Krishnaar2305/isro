@@ -6,17 +6,17 @@ const { exec } = require('child_process');
 const folderPath = "./uploads";
 
 // Count the number of files in the specified folder
-const countFiles = (folderPath) => {
-    try {
-        return fs.readdirSync(folderPath)
-            .filter(item => fs.statSync(path.join(folderPath, item)).isFile()).length;
-    } catch (err) {
-        console.error(`Error reading folder: ${err.message}`);
-        return 0; // Default to 0 if there is an error
-    }
-};
+// const countFiles = (folderPath) => {
+//     try {
+//         return fs.readdirSync(folderPath)
+//             .filter(item => fs.statSync(path.join(folderPath, item)).isFile()).length;
+//     } catch (err) {
+//         console.error(`Error reading folder: ${err.message}`);
+//         return 0; // Default to 0 if there is an error
+//     }
+// };
 
-let fileCount;
+// let fileCount;
 
 // Set up Multer storage configuration
 const storage = multer.diskStorage({
@@ -24,8 +24,7 @@ const storage = multer.diskStorage({
         cb(null, folderPath);
     },
     filename: (req, file, cb) => {
-        fileCount = countFiles(folderPath);
-        cb(null, `data${fileCount}${path.extname(file.originalname)}`); // Rename file with count
+        cb(null, `data${path.extname(file.originalname)}`); // Rename file with count
     }
 });
 
@@ -37,11 +36,6 @@ const runPy = (py, callback) => {
         if (error) {
             console.error(`Error: ${error.message}`);
             callback(error, null); // Pass error to callback
-            return;
-        }
-        if (stderr) {
-            console.error(`Stderr: ${stderr}`);
-            callback(new Error(stderr), null); // Pass error to callback
             return;
         }
         console.log(`Successfully executed Python file.`);
@@ -59,20 +53,30 @@ const uploadData = (req, res) => {
         console.log('File uploaded:', req.file);
 
         // Run the Python script and handle the callback
-        runPy('./public/genCurve.py', (scriptErr, stdout) => {
+        runPy('./python/stats.py', (scriptErr, stdout) => {
             if (scriptErr) {
                 return res.status(400).json({ error: 'Failed to generate graph', details: scriptErr.message });
             }
 
+            const parsedData = JSON.parse(stdout);
+            console.log(parsedData)
             const imgObj = {
                 "message": "File uploaded successfully",
-                "imagePath": `./history/img${fileCount}.png` // Adjust based on your server logic
+                "originalCurve": `./curves/originalCurve${parsedData.now}.png`,
+                "smoothenedCurve": `./curves/smoothenedCurve${parsedData.now}.png`,
+                "peaksCurve": `./curves/peaksCurve${parsedData.now}.png`,
+                "data": parsedData
             };
             res.status(200).json(imgObj);
         });
     });
 };
 
+// const getNumber = (req, res) =>{
+//     const num = countFiles(folderPath);
+//     res.status(200).json({num})
+// }
+
 module.exports = {
-    uploadData  
+    uploadData,
 };
